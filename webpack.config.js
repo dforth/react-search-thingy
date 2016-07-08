@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: ["./src/examples/SearchExample.jsx"]
+    example: ["./src/examples/SearchExample.jsx"]
   },
   output: {
     filename: 'public/bundle.js'
@@ -10,7 +10,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel',
         query: {
@@ -18,5 +18,8 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
 };
