@@ -1,0 +1,26 @@
+{
+  "name": "react-search-thingy",
+  "version": "1.0.0",
+  "description": "React responsive search bar",
+  "keywords": [
+    "search",
+    "react"
+  ],
+  "homepage": "https://github.com/dforth/react-search-thingy",
+  "license": "MIT",
+  "author": "Donald Forth",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src --out-dir build",
+    "build-dev": "webpack-dev-server --config webpack.config.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dforth/react-search-thingy"
+  },
+  "devDependencies": {
+    "babel-loader": "^5.3.1",
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1"
+  }
+}
