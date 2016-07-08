@@ -2,30 +2,21 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: ['./examples/example.jsx']
+    app: ["./src/examples/SearchExample.jsx"]
   },
   output: {
-    path: './build/public',
-    filename: 'bundle.js'
+    filename: 'public/bundle.js'
   },
   module: {
     loaders: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel'
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel',
+        query: {
+          presets: ['react', 'es2015']
+        }
       }
     ]
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  plugins: [
-    //new webpack.optimize.UglifyJsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': '"production"'
-      }
-    })
-  ]
+  }
 };
