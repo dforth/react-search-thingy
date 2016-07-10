@@ -6,10 +6,10 @@ import SearchThingy from '../SearchThingy';
 var SearchExample = React.createClass({
   render: function() {
     return (
-      <SearchThingy />
+        <SearchThingy/>
     );
   }
 });
 
 
-ReactDOM.render(<SearchExample/>, document.getElementById('searchContainer'));
+ReactDOM.render(<SearchExample />, document.getElementById('searchContainer'));
