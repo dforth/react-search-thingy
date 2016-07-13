@@ -77,14 +77,14 @@ class SearchThingy extends React.Component {
 
   onSubmit(event) {
 
-    performSearch();
+    this.performSearch();
   }
 
   handleSuggestionSelection(selectedSuggestion) {
-
+console.log('test');
     this.updateSearchText(selectedSuggestion);
 
-    this.props.searchHandler(this.state.searchString);
+    this.performSearch();
   }
 
   clearSearch() {

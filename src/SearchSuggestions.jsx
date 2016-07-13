@@ -34,6 +34,14 @@ class SearchSuggestions extends React.Component {
     }
   }
 
+
+  handleClick(suggestion) {
+
+    console.log('suggestion: ', suggestion);
+
+    this.props.selectionHandler(suggestion);
+  }
+
   render() {
 
     return (
@@ -44,7 +52,8 @@ class SearchSuggestions extends React.Component {
               {'selected': this.props.selectedSuggestionIndex == index}
               )}
             key={index}
-            onClick={() => this.props.selectionHandler(suggestion)}
+            onClick={() => this.handleClick(suggestion)}
+            onMouseDown={(event) => event.preventDefault()}
             >
             { this.renderSuggestionText(suggestion) }
           </li>
