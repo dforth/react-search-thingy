@@ -1,5 +1,6 @@
 import React from 'react';
-import SearchSuggestions from './SearchSuggestions'
+import SearchSuggestions from './SearchSuggestions';
+import classNames from 'classnames';
 
 class SearchThingy extends React.Component {
 
@@ -16,7 +17,9 @@ class SearchThingy extends React.Component {
     this.state = this.initialState = {
 
       searchString: defaultSearchString,
-      searchSuggestions: []
+      searchSuggestions: [],
+      highlightedSuggestionIndex: null,
+      hasFocus: false
     };
   }
 
@@ -26,41 +29,163 @@ class SearchThingy extends React.Component {
 
   getSearchSuggestions(searchText) {
 
-    return [
-      searchText + "test1",
-      searchText + "test2",
-      searchText + "test3"
-    ]
+    if (this.props.searchSuggestionHandler) {
+
+      return this.props.searchSuggestionHandler(searchText);
+    }
+  }
+
+  updateSearchText(newSearchString) {
+
+    if (newSearchString != this.state.searchString) {
+
+      var newSearchSuggestions = [];
+
+      if (newSearchString.length > 2) {
+
+          newSearchSuggestions = this.getSearchSuggestions(newSearchString);
+      }
+
+      this.setState({
+
+        searchString: newSearchString,
+        searchSuggestions: newSearchSuggestions
+      });
+    }
   }
 
   onChange(event) {
 
-    var currentSearchStringValue = event.target.value;
+    this.updateSearchText(event.target.value);
+  }
 
-    var newSearchSuggestions = [];
+  performSearch() {
 
-    if (currentSearchStringValue.length > 3) {
+    var searchText = this.state.searchString;
 
-        newSearchSuggestions = this.getSearchSuggestions(currentSearchStringValue);
+    if (this.state.highlightedSuggestionIndex != null && this.state.searchSuggestions) {
+
+        searchText = this.state.searchSuggestions[this.state.highlightedSuggestionIndex];
     }
 
-    this.setState({
+    if (searchText) {
 
-      searchString: currentSearchStringValue,
-      searchSuggestions: newSearchSuggestions
-    });
+      this.props.searchHandler(searchText);
+    }
+
   }
 
   onSubmit(event) {
 
-    if (this.state.searchString) {
-      alert("Search for: '" + this.state.searchString + "'");
+    performSearch();
+  }
+
+  handleSuggestionSelection(selectedSuggestion) {
+
+    this.updateSearchText(selectedSuggestion);
+
+    this.props.searchHandler(this.state.searchString);
+  }
+
+  clearSearch() {
+
+    this.setState({
+      searchString: '',
+      hasFocus: false,
+      searchSuggestions: [],
+      highlightedSuggestionIndex: null
+    });
+  }
+
+  moveSelectionDown() {
+
+    if (this.state.searchSuggestions) {
+
+      var index = this.state.highlightedSuggestionIndex;
+
+      if (index == null) {
+
+        index = 0;
+
+      } else {
+
+        index = index + 1;
+
+        if (index >= this.state.searchSuggestions.length) {
+
+          index = null;
+        }
+      }
+
+      this.setState({
+
+        highlightedSuggestionIndex: index
+      });
     }
   }
 
-  handleSuggestionSelection(selection) {
+  moveSelectionUp() {
 
-    console.log("TODO: handleSuggestionSelect: ", selection);
+    if (this.state.searchSuggestions) {
+
+      var index = this.state.highlightedSuggestionIndex;
+
+      if (index == null) {
+
+        index = this.state.searchSuggestions.length - 1;
+
+      } else {
+
+        index = index - 1;
+
+        if (index < 0) {
+
+          index = null;
+        }
+      }
+
+      this.setState({
+
+        highlightedSuggestionIndex: index
+      });
+    }
+  }
+
+  onKeyDown(event) {
+
+    const keyValue = event.which || event.keyCode;
+
+    switch (keyValue) {
+
+      case 38: // Up Arrow
+        event.preventDefault();
+        this.moveSelectionUp();
+        break;
+
+      case 40: // Down Arrow
+
+        event.preventDefault();
+        this.moveSelectionDown();
+        break;
+
+      case 13: // Enter
+
+        this.performSearch();
+        break;
+
+      case 27: // Escape
+
+        this.refs.searchInput.blur();
+        break;
+
+      default:
+        // Anything else and we clear the suggestion selection
+        if (this.state.highlightedSuggestionIndex != null) {
+          this.setState({
+            highlightedSuggestionIndex: null
+          });
+        }
+    }
   }
 
   render() {
@@ -68,8 +193,31 @@ class SearchThingy extends React.Component {
     return (
       <div className="SearchThingy">
         <div className="SearchThingy_Field">
-          <input type="search" className="SearchThingy_Input" name="search" placeholder="Search..." value={this.state.searchString} onChange={this.onChange.bind(this)} />
-          <button className="SearchThingy_Button" id="searchThingyButton" onClick={this.onSubmit.bind(this)} >Search</button>
+          <input
+            type="search"
+            ref="searchInput"
+            className={
+              classNames(
+                'SearchThingy_Input',
+                {'selected': this.state.highlightedSuggestionIndex == null}
+              )
+            }
+            maxLength="80"
+            autoCapitalize="none"
+            autoComplete="off"
+            autoCorrect="off"
+            name="search"
+            placeholder="Search..."
+            value={this.state.searchString}
+            onChange={this.onChange.bind(this)}
+            onBlur={this.clearSearch.bind(this)}
+            onKeyDown={this.state.searchSuggestions && this.onKeyDown.bind(this)}
+            onFocus={() => this.setState({hasFocus: true})}
+            />
+          <button
+            className="SearchThingy_Button"
+            id="searchThingyButton"
+            onClick={this.onSubmit.bind(this)} ><i className="fa fa-search"></i></button>
         </div>
         {
           this.state.searchSuggestions.length > 0 &&
@@ -77,6 +225,7 @@ class SearchThingy extends React.Component {
             searchText={this.state.searchString}
             searchSuggestions={this.state.searchSuggestions}
             selectionHandler={this.handleSuggestionSelection.bind(this)}
+            selectedSuggestionIndex={this.state.highlightedSuggestionIndex}
           />
         }
       </div>
@@ -85,10 +234,16 @@ class SearchThingy extends React.Component {
 }
 
 SearchThingy.propTypes = {
-  defaultSearchString: React.PropTypes.string
+  defaultSearchString: React.PropTypes.string,
+  showTouchShield: React.PropTypes.bool,
+  searchSuggestionHandler: React.PropTypes.func,
+  searchHandler: React.PropTypes.func.isRequired
 };
 
 SearchThingy.defaultProps = {
+  defaultSearchString: undefined,
+  showTouchShield: false,
+  searchSuggestionHandler: undefined
 };
 
 export default SearchThingy;

@@ -19,6 +19,7 @@
     "url": "https://github.com/dforth/react-search-thingy"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "react": "^15.2.0",
     "react-dom": "^15.2.0"
   },

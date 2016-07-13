@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 class SearchSuggestions extends React.Component {
 
@@ -10,19 +11,42 @@ class SearchSuggestions extends React.Component {
 
   }
 
+  renderSuggestionText(suggestionText) {
+
+    let startIndex = suggestionText.indexOf(this.props.searchText);
+
+    if (startIndex == -1) {
+
+      return (
+        <span>{suggestionText}</span>
+      );
+
+    } else {
+
+      return (
+        <span>
+          { suggestionText.substr(0, startIndex) }
+          <strong>{this.props.searchText}</strong>
+          { suggestionText.substr(startIndex + this.props.searchText.length) }
+        </span>
+      );
+
+    }
+  }
+
   render() {
 
     return (
       <ul className="SearchThingy_suggestions">
         {this.props.searchSuggestions.map((suggestion, index) =>
-          <li className="SearchThingy_suggestion"
+          <li className={classNames(
+              'SearchThingy_suggestion',
+              {'selected': this.props.selectedSuggestionIndex == index}
+              )}
             key={index}
             onClick={() => this.props.selectionHandler(suggestion)}
             >
-            <span>
-              {this.props.searchText}
-              <strong>{suggestion.substr(this.props.searchText.length)}</strong>
-            </span>
+            { this.renderSuggestionText(suggestion) }
           </li>
         )}
       </ul>
