@@ -1,4 +1,4 @@
-# react-search-thingy
+# React Search Thingy
 
 A simple react based search bar that can be used on responsive sites.
 
@@ -17,12 +17,19 @@ I looked at while working on this.
 
 ## Install
 
-* clone the repo locally
-* make sure you have babel-cli installed
-* make sure you have webpack installed
-* run npm install
+* clone the repo locally `git clone https://github.com/dforth/react-search-thingy.git`
+* make sure you have babel-cli installed `sudo npm install babel-cli -g`
+* make sure you have webpack installed `sudo npm install webpack -g`
+* install dependencies `npm install`
+* run `webpack`
+* view the example: open `./public/index.html`
 
 
 ## Usage
 
 * TBD
+
+
+## License
+
+React Search Thingy is released under the [MIT License](./LICENSE.txt).
