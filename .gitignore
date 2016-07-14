@@ -1,5 +1,6 @@
 node_modules/
 .tmp/
 dist/
-public/bundle.js
+public/js/bundle.js
+public/css/bundle.css
 *.log

@@ -2,6 +2,8 @@ import React from 'react';
 import SearchSuggestions from './SearchSuggestions';
 import classNames from 'classnames';
 
+import './searchThingyStyles';
+
 class SearchThingy extends React.Component {
 
   constructor(props) {
