@@ -68,6 +68,11 @@ class SearchThingy extends React.Component {
         searchText = this.state.searchSuggestions[this.state.highlightedSuggestionIndex];
     }
 
+    if (this.props.clearSearchTextOnSubmit) {
+
+      this.clearSearch();
+    }
+
     if (searchText) {
 
       this.props.searchHandler(searchText);
@@ -191,7 +196,7 @@ console.log('test');
   render() {
 
     return (
-      <div className="SearchThingy">
+      <div id={'SearchThingy_' + this.props.id} className="SearchThingy">
         <div className="SearchThingy_Field">
           <input
             type="search"
@@ -234,16 +239,18 @@ console.log('test');
 }
 
 SearchThingy.propTypes = {
+  id: React.PropTypes.string,
   defaultSearchString: React.PropTypes.string,
-  showTouchShield: React.PropTypes.bool,
   searchSuggestionHandler: React.PropTypes.func,
-  searchHandler: React.PropTypes.func.isRequired
+  searchHandler: React.PropTypes.func.isRequired,
+  clearSearchTextOnSubmit: React.PropTypes.bool
 };
 
 SearchThingy.defaultProps = {
+  id: "1",
   defaultSearchString: undefined,
-  showTouchShield: false,
-  searchSuggestionHandler: undefined
+  searchSuggestionHandler: undefined,
+  clearSearchTextOnSubmit: true
 };
 
 export default SearchThingy;

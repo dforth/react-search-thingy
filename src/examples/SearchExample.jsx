@@ -37,6 +37,7 @@ class SearchExample extends React.Component {
         <SearchThingy
           searchSuggestionHandler={this.searchSuggestionHandler}
           searchHandler={this.searchHandler}
+          clearSearchTextOnSubmit={true}
         />
     );
   }

@@ -35,6 +35,7 @@ class SearchSuggestions extends React.Component {
   }
 
 
+
   handleClick(suggestion) {
 
     console.log('suggestion: ', suggestion);
@@ -54,6 +55,7 @@ class SearchSuggestions extends React.Component {
             key={index}
             onClick={() => this.handleClick(suggestion)}
             onMouseDown={(event) => event.preventDefault()}
+            onTouchEnd={() => this.handleClick(suggestion)}
             >
             { this.renderSuggestionText(suggestion) }
           </li>
