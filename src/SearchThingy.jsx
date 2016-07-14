@@ -9,7 +9,7 @@ class SearchThingy extends React.Component {
   constructor(props) {
     super(props);
 
-    var defaultSearchString = '';
+    let defaultSearchString = '';
 
     if (this.props.defaultSearchString) {
 
@@ -41,7 +41,7 @@ class SearchThingy extends React.Component {
 
     if (newSearchString != this.state.searchString) {
 
-      var newSearchSuggestions = [];
+      let newSearchSuggestions = [];
 
       if (newSearchString.length > 2) {
 
@@ -63,7 +63,7 @@ class SearchThingy extends React.Component {
 
   performSearch() {
 
-    var searchText = this.state.searchString;
+    let searchText = this.state.searchString;
 
     if (this.state.highlightedSuggestionIndex != null && this.state.searchSuggestions) {
 
@@ -108,7 +108,7 @@ console.log('test');
 
     if (this.state.searchSuggestions) {
 
-      var index = this.state.highlightedSuggestionIndex;
+      let index = this.state.highlightedSuggestionIndex;
 
       if (index == null) {
 
@@ -135,7 +135,7 @@ console.log('test');
 
     if (this.state.searchSuggestions) {
 
-      var index = this.state.highlightedSuggestionIndex;
+      let index = this.state.highlightedSuggestionIndex;
 
       if (index == null) {
 

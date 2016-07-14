@@ -13,7 +13,7 @@ class SearchExample extends React.Component {
 
     console.log('searchSuggestionHandler called: ', searchText);
 
-    var testSuggestions = [];
+    const testSuggestions = [];
 
     for (var i=0; i< 10; i++) {
       testSuggestions.push(searchText + 'test' + i);
